@@ -247,12 +247,11 @@ public class ScalingMetricsTest {
 
     @Test
     public void testGlobalMetrics() {
-        Configuration conf = new Configuration();
-        assertEquals(Map.of(), ScalingMetrics.computeGlobalMetrics(Map.of(), Map.of(), conf));
+        assertEquals(Map.of(), ScalingMetrics.computeGlobalMetrics(Map.of(), Map.of()));
         assertEquals(
                 Map.of(),
                 ScalingMetrics.computeGlobalMetrics(
-                        Map.of(), Map.of(FlinkMetric.HEAP_MEMORY_USED, aggMax(100)), conf));
+                        Map.of(), Map.of(FlinkMetric.HEAP_MEMORY_USED, aggMax(100))));
 
         assertEquals(
                 Map.of(
@@ -274,8 +273,7 @@ public class ScalingMetricsTest {
                                 FlinkMetric.METASPACE_MEMORY_USED,
                                 aggAvgMax(11, 22),
                                 FlinkMetric.HEAP_MEMORY_MAX,
-                                aggMax(200.)),
-                        conf));
+                                aggMax(200.))));
     }
 
     private static AggregatedMetric aggSum(double sum) {

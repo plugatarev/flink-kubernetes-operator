@@ -68,11 +68,10 @@ public class ArtifactManager {
     public String generateJarDir(ObjectMeta meta, FlinkSessionJobSpec spec) {
         return String.join(
                 File.separator,
-                new String[] {
-                    new File(configManager.getOperatorConfiguration().getArtifactsBaseDir())
-                                    .getAbsolutePath(),
-                            meta.getNamespace(),
-                    spec.getDeploymentName(), meta.getName()
-                });
+                new File(configManager.getOperatorConfiguration().getArtifactsBaseDir())
+                        .getAbsolutePath(),
+                meta.getNamespace(),
+                spec.getDeploymentName(),
+                meta.getName());
     }
 }

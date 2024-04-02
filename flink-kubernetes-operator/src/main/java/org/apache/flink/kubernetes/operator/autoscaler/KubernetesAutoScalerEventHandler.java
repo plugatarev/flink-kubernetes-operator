@@ -79,16 +79,12 @@ public class KubernetesAutoScalerEventHandler
 
             @Nullable
             Predicate<Map<String, String>> dedupePredicate =
-                    new Predicate<Map<String, String>>() {
-                        @Override
-                        public boolean test(Map<String, String> stringStringMap) {
-                            return stringStringMap != null
+                    stringStringMap ->
+                            stringStringMap != null
                                     && Objects.equals(
                                             stringStringMap.get(PARALLELISM_MAP_KEY),
                                             AutoScalerEventHandler.getParallelismHashCode(
                                                     scalingSummaries));
-                        }
-                    };
 
             eventRecorder.triggerEventWithLabels(
                     context.getResource(),

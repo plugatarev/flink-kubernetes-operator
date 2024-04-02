@@ -38,6 +38,7 @@ import javax.annotation.Nullable;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -138,7 +139,8 @@ public class ScalingMetricEvaluator {
 
         double inputRateAvg = getRate(ScalingMetric.NUM_RECORDS_IN, vertex, metricsHistory);
 
-        var evaluatedMetrics = new HashMap<ScalingMetric, EvaluatedScalingMetric>();
+        Map<ScalingMetric, EvaluatedScalingMetric> evaluatedMetrics =
+                new EnumMap<>(ScalingMetric.class);
         computeTargetDataRate(
                 topology,
                 vertex,
@@ -364,7 +366,7 @@ public class ScalingMetricEvaluator {
     protected static Map<ScalingMetric, EvaluatedScalingMetric> evaluateGlobalMetrics(
             SortedMap<Instant, CollectedMetrics> metricHistory) {
         var latest = metricHistory.get(metricHistory.lastKey()).getGlobalMetrics();
-        var out = new HashMap<ScalingMetric, EvaluatedScalingMetric>();
+        Map<ScalingMetric, EvaluatedScalingMetric> out = new EnumMap<>(ScalingMetric.class);
 
         var gcPressure = latest.getOrDefault(GC_PRESSURE, Double.NaN);
         out.put(GC_PRESSURE, EvaluatedScalingMetric.of(gcPressure));

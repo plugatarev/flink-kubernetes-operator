@@ -59,7 +59,7 @@ public class InMemoryAutoScalerStateStore<KEY, Context extends JobAutoScalerCont
         collectedMetricsStore = new ConcurrentHashMap<>();
         parallelismOverridesStore = new ConcurrentHashMap<>();
         scalingTrackingStore = new ConcurrentHashMap<>();
-        tmConfigOverrides = new ConcurrentHashMap<KEY, ConfigChanges>();
+        tmConfigOverrides = new ConcurrentHashMap<>();
     }
 
     @Override

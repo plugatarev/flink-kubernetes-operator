@@ -54,6 +54,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -96,7 +97,7 @@ public abstract class ScalingMetricCollector<KEY, Context extends JobAutoScalerC
         var metricHistory =
                 histories.computeIfAbsent(
                         jobKey,
-                        (k) -> {
+                        k -> {
                             try {
                                 return stateStore.getCollectedMetrics(ctx);
                             } catch (Exception exception) {
@@ -289,7 +290,8 @@ public abstract class ScalingMetricCollector<KEY, Context extends JobAutoScalerC
                             "Calculating vertex scaling metrics for {} from {}",
                             jobVertexID,
                             vertexFlinkMetrics);
-                    var vertexScalingMetrics = new HashMap<ScalingMetric, Double>();
+                    Map<ScalingMetric, Double> vertexScalingMetrics =
+                            new EnumMap<>(ScalingMetric.class);
                     out.put(jobVertexID, vertexScalingMetrics);
 
                     if (jobTopology.isSource(jobVertexID)) {
@@ -327,7 +329,7 @@ public abstract class ScalingMetricCollector<KEY, Context extends JobAutoScalerC
                 });
 
         var globalMetrics =
-                ScalingMetrics.computeGlobalMetrics(collectedJmMetrics, collectedTmMetrics, conf);
+                ScalingMetrics.computeGlobalMetrics(collectedJmMetrics, collectedTmMetrics);
         LOG.debug("Global metrics: {}", globalMetrics);
 
         return new CollectedMetrics(out, globalMetrics);

@@ -30,7 +30,7 @@ import org.apache.commons.math3.util.Precision;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -142,13 +142,12 @@ public class ScalingMetrics {
 
     public static Map<ScalingMetric, Double> computeGlobalMetrics(
             Map<FlinkMetric, Metric> collectedJmMetrics,
-            Map<FlinkMetric, AggregatedMetric> collectedTmMetrics,
-            Configuration conf) {
+            Map<FlinkMetric, AggregatedMetric> collectedTmMetrics) {
         if (collectedTmMetrics == null) {
             return null;
         }
 
-        var out = new HashMap<ScalingMetric, Double>();
+        Map<ScalingMetric, Double> out = new EnumMap<>(ScalingMetric.class);
 
         try {
             var numTotalTaskSlots =
